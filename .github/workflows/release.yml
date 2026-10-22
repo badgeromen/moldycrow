@@ -1,0 +1,78 @@
+# Push a tag like v0.2.0 and this builds Moldy Crow for Windows, macOS (Apple Silicon + Intel) and Linux,
+# then attaches the zips to a GitHub Release. Run it by hand from the Actions tab to just get the build artifacts.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            asset: MoldyCrow-windows
+          - os: macos-latest
+            asset: MoldyCrow-macos-apple-silicon
+          - os: macos-15-intel
+            asset: MoldyCrow-macos-intel
+          - os: ubuntu-22.04
+            asset: MoldyCrow-linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install . pyinstaller
+
+      - name: Build
+        run: >
+          pyinstaller --noconfirm --clean --windowed --name MoldyCrow
+          --hidden-import PyQt6.QtMultimedia
+          --osx-bundle-identifier com.github.moldycrow
+          packaging/launcher.py
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path dist/MoldyCrow -DestinationPath "${{ matrix.asset }}.zip"
+
+      - name: Package (macOS)
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/MoldyCrow.app "${{ matrix.asset }}.zip"
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        run: tar -C dist -czf "${{ matrix.asset }}.tar.gz" MoldyCrow
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset }}.*
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
