@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Moldy Crow
+Comment=Dark Forces mod tracker and random mission picker
+Exec=MoldyCrow
+Icon=moldycrow
+Categories=Game;
+Terminal=false

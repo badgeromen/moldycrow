@@ -4,14 +4,14 @@ Tracker and random mission picker for Dark Forces mods, built for The Force Engi
 
 ## Download
 
-**Don't use the green Code button, that's the source code.** Grab the file for your system:
+**Don't use the green Code button or the "Source code" files on the release page; those are just the Python code.** Grab the file for your system:
 
 | System | Download | How to run |
 |---|---|---|
 | **Windows** | [MoldyCrow-windows.exe](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-windows.exe) | Double-click it. If SmartScreen warns about an unknown publisher: **More info → Run anyway**. |
 | **Mac (M1/M2/M3/M4)** | [MoldyCrow-macos-apple-silicon.zip](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-macos-apple-silicon.zip) | Unzip, then **right-click MoldyCrow.app → Open** the first time (the app isn't signed). |
 | **Mac (Intel)** | [MoldyCrow-macos-intel.zip](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-macos-intel.zip) | Same as above. |
-| **Linux** | [MoldyCrow-linux.tar.gz](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-linux.tar.gz) | Extract and run `MoldyCrow/MoldyCrow`. |
+| **Linux** | [MoldyCrow-linux-x86_64.AppImage](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-linux-x86_64.AppImage) | Make it executable (`chmod +x`, or Properties → Allow executing) and double-click it. |
 
 No install and no internet needed after the download. You also need [The Force Engine](https://theforceengine.github.io) set up with your own copy of Dark Forces.
 

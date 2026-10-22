@@ -24,7 +24,7 @@ jobs:
           - os: macos-15-intel
             asset: MoldyCrow-macos-intel
           - os: ubuntu-22.04
-            asset: MoldyCrow-linux
+            asset: MoldyCrow-linux-x86_64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -54,9 +54,15 @@ jobs:
         if: runner.os == 'macOS'
         run: ditto -c -k --keepParent dist/MoldyCrow.app "${{ matrix.asset }}.zip"
 
-      - name: Package (Linux)
+      - name: Package (Linux AppImage)
         if: runner.os == 'Linux'
-        run: tar -C dist -czf "${{ matrix.asset }}.tar.gz" MoldyCrow
+        run: |
+          curl -sL -o appimagetool https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool
+          mkdir AppDir
+          cp -r dist/MoldyCrow AppDir/
+          cp packaging/AppRun packaging/moldycrow.desktop packaging/moldycrow.png AppDir/
+          ARCH=x86_64 APPIMAGE_EXTRACT_AND_RUN=1 ./appimagetool AppDir "${{ matrix.asset }}.AppImage"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -85,7 +91,7 @@ jobs:
             | **Windows** | `MoldyCrow-windows.exe` | Double-click it. If SmartScreen warns about an unknown publisher: **More info → Run anyway**. |
             | **Mac (M1/M2/M3/M4)** | `MoldyCrow-macos-apple-silicon.zip` | Unzip, then **right-click MoldyCrow.app → Open** the first time. |
             | **Mac (Intel)** | `MoldyCrow-macos-intel.zip` | Same as above. |
-            | **Linux** | `MoldyCrow-linux.tar.gz` | Extract and run `MoldyCrow/MoldyCrow`. |
+            | **Linux** | `MoldyCrow-linux-x86_64.AppImage` | Make it executable (`chmod +x`, or Properties → Allow executing) and double-click it. |
 
-            Ignore the **Source code** files below unless you want the Python code.
+            **Ignore the "Source code" files below.** GitHub adds them automatically; they are not the app.
             You need [The Force Engine](https://theforceengine.github.io) set up with your own copy of Dark Forces. Put mod zips in The Force Engine's `Mods` folder.
