@@ -2,6 +2,19 @@
 
 Tracker and random mission picker for Dark Forces mods, built for The Force Engine. Runs on Windows, macOS and Linux.
 
+## Download
+
+**Don't use the green Code button, that's the source code.** Grab the file for your system:
+
+| System | Download | How to run |
+|---|---|---|
+| **Windows** | [MoldyCrow-windows.exe](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-windows.exe) | Double-click it. If SmartScreen warns about an unknown publisher: **More info → Run anyway**. |
+| **Mac (M1/M2/M3/M4)** | [MoldyCrow-macos-apple-silicon.zip](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-macos-apple-silicon.zip) | Unzip, then **right-click MoldyCrow.app → Open** the first time (the app isn't signed). |
+| **Mac (Intel)** | [MoldyCrow-macos-intel.zip](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-macos-intel.zip) | Same as above. |
+| **Linux** | [MoldyCrow-linux.tar.gz](https://github.com/badgeromen/moldycrow/releases/latest/download/MoldyCrow-linux.tar.gz) | Extract and run `MoldyCrow/MoldyCrow`. |
+
+No install and no internet needed after the download. You also need [The Force Engine](https://theforceengine.github.io) set up with your own copy of Dark Forces.
+
 Styled after the game's own Agent Menu. At startup it reads art straight from your Dark Forces install
 (the path The Force Engine is configured with): the 8px menu font from `menu.lfd`, the PDA bezel, the
 starfield from `darklogo.lfd`, and UI sounds from `sounds.gob`. No game assets are stored in this repo;
@@ -14,19 +27,7 @@ without the base game the app falls back to plain drawing and stays silent.
 - **PDA automap**: the level drawn as green vectors on black inside the real PDA frame, rendered straight from the LEV geometry inside each mod's GOB: walls, doors, secret sectors, floor height shading, hostiles, and your start position
 - Multi-level campaigns get a level picker; mods that only replace objects on a stock level borrow geometry from the game's own `dark.gob`
 
-## Install
-
-Grab the zip for your system from the [Releases](../../releases) page and unzip it.
-
-| System | Run |
-|---|---|
-| Windows | `MoldyCrow\MoldyCrow.exe`. SmartScreen may warn about an unknown publisher: **More info → Run anyway**. |
-| macOS | `MoldyCrow.app` (separate builds for Apple Silicon and Intel). The app isn't signed, so the first time **right-click → Open**, or run `xattr -dr com.apple.quarantine MoldyCrow.app`. |
-| Linux | `MoldyCrow/MoldyCrow` from the tarball. |
-
-You also need [The Force Engine](https://theforceengine.github.io) set up with your own copy of Dark Forces.
-
-### From source
+## Run from source
 
 ```
 pip install .            # installs the `moldycrow` command (needs Python 3.9+ and PyQt6)

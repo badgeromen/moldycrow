@@ -18,6 +18,7 @@ jobs:
         include:
           - os: windows-latest
             asset: MoldyCrow-windows
+            onefile: --onefile
           - os: macos-latest
             asset: MoldyCrow-macos-apple-silicon
           - os: macos-15-intel
@@ -39,7 +40,7 @@ jobs:
 
       - name: Build
         run: >
-          pyinstaller --noconfirm --clean --windowed --name MoldyCrow
+          pyinstaller --noconfirm --clean --windowed --name MoldyCrow ${{ matrix.onefile }}
           --hidden-import PyQt6.QtMultimedia
           --osx-bundle-identifier com.github.moldycrow
           packaging/launcher.py
@@ -47,7 +48,7 @@ jobs:
       - name: Package (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
-        run: Compress-Archive -Path dist/MoldyCrow -DestinationPath "${{ matrix.asset }}.zip"
+        run: Copy-Item dist/MoldyCrow.exe "${{ matrix.asset }}.exe"
 
       - name: Package (macOS)
         if: runner.os == 'macOS'
@@ -76,3 +77,15 @@ jobs:
         with:
           files: dist/*
           generate_release_notes: true
+          body: |
+            ## Download
+
+            | System | File | How to run |
+            |---|---|---|
+            | **Windows** | `MoldyCrow-windows.exe` | Double-click it. If SmartScreen warns about an unknown publisher: **More info → Run anyway**. |
+            | **Mac (M1/M2/M3/M4)** | `MoldyCrow-macos-apple-silicon.zip` | Unzip, then **right-click MoldyCrow.app → Open** the first time. |
+            | **Mac (Intel)** | `MoldyCrow-macos-intel.zip` | Same as above. |
+            | **Linux** | `MoldyCrow-linux.tar.gz` | Extract and run `MoldyCrow/MoldyCrow`. |
+
+            Ignore the **Source code** files below unless you want the Python code.
+            You need [The Force Engine](https://theforceengine.github.io) set up with your own copy of Dark Forces. Put mod zips in The Force Engine's `Mods` folder.
